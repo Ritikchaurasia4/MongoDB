@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const userModel = require('./usermodel');
+const userModel = require('./usermodel1');
 
 app.get("/",(req , res)=>{
     res.send("Hello");
