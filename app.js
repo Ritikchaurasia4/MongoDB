@@ -56,7 +56,7 @@ app.get("/update",async(req , res)=>{
     res.send(updatedUser);
 });
 
-// ====  delete .....................
+// ====  delete ....................
 
 app.get("/delete",async(req , res)=>{
     
