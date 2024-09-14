@@ -8,5 +8,5 @@ const userSchema = mongoose.Schema({   // Here Schema is a method that conatin i
     email : String ,
 });
 
-// If we work on route then it is necessary to export the model. export is a property  not method..
+// If we work on route then it is necessary to export the model. export is a property  not method.
 module.exports = mongoose.model("user" , userSchema);  
