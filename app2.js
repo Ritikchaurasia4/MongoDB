@@ -28,12 +28,44 @@ app.get("/read" , async(req , res)=>{
 
 // ===== Delete -----------------------------------------
 
-app.get('/delete/:id' , async(req , res)=>{
-    let users = await userModel.findOneAndDelete({_id:req.params.id});
-    // res.render("read" , {users});
-    res.redirect("read");
+// app.get('/delete/:id' , async(req , res)=>{
+//     let users = await userModel.findOneAndDelete({_id:req.params.id});
+//     // res.render("read" , {users});
+//     res.redirect("read");
+// });
+
+// we can also handle the error.
+
+app.get('/delete/:id', (req, res) => {
+    userModel.findOneAndDelete({ _id: req.params.id })
+        .then(deletedUser => {
+            // If no user is found with the given ID
+            if (!deletedUser) {
+                return res.status(404).send("User not found");
+            }
+
+            // Redirecting to the '/read' route after successful deletion
+            res.redirect('/read');
+        })
+        .catch(error => {
+            // Handling potential errors
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+        });
 });
 
+// ===== update -----------------------------------------
+
+app.get("/edit/:userid" , async(req , res)=>{
+    let user = await userModel.findOne({_id:req.params.userid});
+    res.render("edit" , {users:user});
+});
+
+app.post("/update/:userid" , async(req , res)=>{
+    let{name , email , image} = req.body;
+    let user = await userModel.findOneAndUpdate({_id:req.params.userid},{image,name,email} , {new : true});
+    res.redirect("/read");
+});
 
 // ===== Create --------------\-----------------------
 
@@ -45,7 +77,7 @@ app.get('/delete/:id' , async(req , res)=>{
 //     })
 // });
 
-// The just above commented code can also be written as usin destructuring
+// The just above commented code can also be written as using destructuring
 
 app.post("/create" , async(req , res)=>{
     let {name , email ,imgurl} = req.body;
