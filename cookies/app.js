@@ -24,12 +24,12 @@
 //     console.log(" This is running on port number 3000 ");
 // });
 
-// ================Just below  Code for Encrypt the password and decrypt the password =============================================
+// ====================Just below  Code for Encrypt the password and decrypt the password =============================================
 
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 // ========================= Encrypt the password =========================
 // app.get("/" , function(req , res){
@@ -42,17 +42,53 @@ const bcrypt = require('bcrypt');
 
 //=========== To decrypt the password , it returns boolean ================
 
-app.get("/" , function(req , res){
+// app.get("/" , function(req , res){
+
     // bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
     //     // result == true
     // });
 
-    bcrypt.compare("password", "$2b$10$M/KYGvsUXjarmI0NMP1PBuH0eXM.C7pBW2cwNcNWDEX6l22zw5M/O", function(err, result) {
-        console.log(result);
-    });
+   // bcrypt.compare("password", "$2b$10$M/KYGvsUXjarmI0NMP1PBuH0eXM.C7pBW2cwNcNWDEX6l22zw5M/O", function(err, result) {
+   //   console.log(result);
+   // });
+//});
+
+
+
+// app.listen(3000 , ()=>{
+//     console.log(" This is running on port number 3000 ");
+// });
+
+// ====================Just below  Code jWT(json webtoken) ============================================================================
+
+
+
+const express = require('express');
+const app = express();
+
+const cookieparser = require("cookie-parser");
+app.use(cookieparser());
+
+const bcrypt = require('bcrypt');
+
+const jwt = require("jsonwebtoken");
+
+app.get("/" , function(req , res){
+   const token = jwt.sign({email:"ritik@gmail.com"} , "secret");
+   res.cookie("token" , token)
+   console.log(token);
+   res.send("done");
 });
 
 
+app.get("/read" , function(req , res){
+
+//    console.log(req.cookies.token);
+
+// Here the data has decrypt which has come from the browser.
+   let data = jwt.verify(req.cookies.token , "secret");
+   console.log(data);
+});
 
 app.listen(3000 , ()=>{
     console.log(" This is running on port number 3000 ");
