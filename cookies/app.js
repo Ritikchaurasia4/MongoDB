@@ -66,7 +66,7 @@
 const express = require('express');
 const app = express();
 
-const cookieparser = require("cookie-parser");
+const cookieparser = require("cookie-parser")
 app.use(cookieparser());
 
 const bcrypt = require('bcrypt');

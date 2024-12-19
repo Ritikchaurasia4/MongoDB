@@ -88,7 +88,7 @@ app.post("/login" , async(req , res)=>{
             res.cookie("token" , token);
             res.send("Yes you can login");
         }
-        else res.send("You can not login");
+        else res.send("You can not login")
     })
 ;})
 
